@@ -1,1 +1,24 @@
-
+apiVersion: ai.sap.com/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: paper-defect-training-pipeline
+  annotations:
+    scenarios.ai.sap.com/description: "Train two-step model for defect prediction in paper batches"
+    scenarios.ai.sap.com/name: "Paper Defect Prediction"
+    executables.ai.sap.com/name: "train-paper-defect-model"
+spec:
+  entrypoint: train
+  templates:
+    - name: train
+      inputs:
+        artifacts:
+          - name: paper_batch_data
+            path: /app/data/paper_batch_data.csv
+      outputs:
+        artifacts:
+          - name: trained_models
+            path: /app/model/
+      container:
+        image: docker.io/pareshkolte/paper_defect_prediction:01
+        command: ["python"]
+        args: ["main.py"]
