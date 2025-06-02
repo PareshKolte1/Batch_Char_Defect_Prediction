@@ -1,19 +1,19 @@
 apiVersion: ai.sap.com/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: paper-defect-training-pipeline
+  name: rc-paper-defect-pipeline
   annotations:
-    scenarios.ai.sap.com/description: "Train two-step model for defect prediction in paper batches"
+    scenarios.ai.sap.com/description: "Train regression + classification models to predict paper batch defects"
     scenarios.ai.sap.com/name: "Paper Defect Prediction"
-    executables.ai.sap.com/name: "train-paper-defect-model"
+    executables.ai.sap.com/name: "rc-paper-defect-train"
 spec:
-  entrypoint: train
+  entrypoint: main
   templates:
-    - name: train
+    - name: main
       inputs:
         artifacts:
           - name: paper_batch_data
-            path: /app/data/paper_batch_data.csv
+            path: /app/data/final_synthetic_paper_batch_data_with_defects.csv
       outputs:
         artifacts:
           - name: trained_models
