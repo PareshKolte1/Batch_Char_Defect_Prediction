@@ -1,4 +1,4 @@
-apiVersion: ai.sap.com/v1alpha1
+apiVersion: agroproj/v1alpha1
 kind: WorkflowTemplate
 metadata:
   name: batchchar-intransit-pipeline
