@@ -1,7 +1,7 @@
 apiVersion: agroproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: "batchchar-intransit-pipeline"
+  name: "batchchar-pipeline"
   annotations:
     scenarios.ai.sap.com/description: "Train regression + classification models to predict paper batch defects"
     scenarios.ai.sap.com/name: "Batchchar Defect Prediction"
