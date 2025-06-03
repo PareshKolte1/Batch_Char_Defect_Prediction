@@ -6,6 +6,8 @@ metadata:
     scenarios.ai.sap.com/description: "Train regression + classification models to predict paper batch defects"
     scenarios.ai.sap.com/name: "Batchchar Defect Prediction"
     executables.ai.sap.com/name: "batchchar-intransit-predict"
+    artifacts.ai.sap.com/laminatedefectdata.kind:  "dataset"
+    artifacts.ai.sap.com/laminatedefectmodel.kind: "model"
 spec:
   entrypoint: main
   templates:
