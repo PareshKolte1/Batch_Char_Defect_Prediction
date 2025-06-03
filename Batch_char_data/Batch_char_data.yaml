@@ -1,4 +1,4 @@
-apiVersion: agroproj/v1alpha1
+apiVersion: agroproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
   name: batchchar-intransit-pipeline
