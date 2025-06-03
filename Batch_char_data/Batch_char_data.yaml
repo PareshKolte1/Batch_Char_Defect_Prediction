@@ -1,11 +1,11 @@
 apiVersion: ai.sap.com/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: rc-paper-defect-pipeline
+  name: batchchar-intransit-pipeline
   annotations:
     scenarios.ai.sap.com/description: "Train regression + classification models to predict paper batch defects"
-    scenarios.ai.sap.com/name: "Paper Defect Prediction"
-    executables.ai.sap.com/name: "rc-paper-defect-train"
+    scenarios.ai.sap.com/name: "Batchchar Defect Prediction"
+    executables.ai.sap.com/name: "batchchar-intransit-predict"
 spec:
   entrypoint: main
   templates:
@@ -19,6 +19,6 @@ spec:
           - name: trained_models
             path: /app/model/
       container:
-        image: docker.io/pareshkolte/paper_defect_prediction:01
+        image: docker.io/pareshkolte/batchar_prediction:01
         command: ["python"]
         args: ["main.py"]
