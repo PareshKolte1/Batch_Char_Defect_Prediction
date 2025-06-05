@@ -10,7 +10,7 @@ metadata:
     artifacts.ai.sap.com/batcharpredictmodel.kind: "model"
   labels:
     scenarios.ai.sap.com/id: "batchchar-pipeline"
-    ai.sap.com/version: "2.0"
+    ai.sap.com/version: '2.0'
 spec:
   imagePullSecrets:
     - name: credstutorialrepo
@@ -33,10 +33,8 @@ spec:
           - name: batcharpredictmodel
             globalName: batch_char_predict_model
             path: /app/model/model.tar.gz
-            archive:
-              none: {}
       container:
         image: docker.io/pareshkolte/batchar_prediction:01
         command: ["/bin/sh", "-c"]
         args:
-          - "mkdir -p /app/model && python /app/src/main.py"
+          - "python /app/src/main.py"
