@@ -32,7 +32,7 @@ spec:
         artifacts:
           - name: batcharpredictmodel
             globalName: batch_char_predict_model
-            path: /app/model/models.tar.gz
+            path: /app/model/model.tar.gz
             archive:
               none: {}
       container:
