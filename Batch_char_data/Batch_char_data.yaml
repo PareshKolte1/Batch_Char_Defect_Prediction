@@ -6,7 +6,7 @@ metadata:
     scenarios.ai.sap.com/description: "Train regression + classification models to predict paper batch defects"
     scenarios.ai.sap.com/name: "Batchchar Defect Prediction"
     executables.ai.sap.com/name: "batchchar-intransit-predict"
-    artifacts.ai.sap.com/batcharpredictdata.kind:  "dataset"
+    artifacts.ai.sap.com/batcharpredictdata.kind: "dataset"
     artifacts.ai.sap.com/batcharpredictmodel.kind: "model"
   labels:
     scenarios.ai.sap.com/id: "batchchar-pipeline"
@@ -33,8 +33,10 @@ spec:
           - name: batcharpredictmodel
             globalName: batch_char_predict_model
             path: /app/model/
+            archive:
+              none: {}
       container:
         image: docker.io/pareshkolte/batchar_prediction:01
-        command: command: ["/bin/sh", "-c"]
-        args: 
+        command: ["/bin/sh", "-c"]
+        args:
           - "mkdir -p /app/model && python /app/src/main.py"
