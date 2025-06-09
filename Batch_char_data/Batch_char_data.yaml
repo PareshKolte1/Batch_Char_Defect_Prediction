@@ -1,15 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: "batchchar-pipeline"
+  name: "rc-data-pipeline"
   annotations:
-    scenarios.ai.sap.com/description: "Train regression + classification models to predict paper batch defects"
-    scenarios.ai.sap.com/name: "Batchchar Defect Prediction"
-    executables.ai.sap.com/name: "batchchar-intransit-predict"
-    artifacts.ai.sap.com/batcharpredictdata.kind: "dataset"
-    artifacts.ai.sap.com/batcharpredictmodel.kind: "model"
+    scenarios.ai.sap.com/description: "root cause analysis to predict the department"
+    scenarios.ai.sap.com/name: "Root cause analysis department prediction"
+    executables.ai.sap.com/description: "Root cause analysis for department prediction"
+    executables.ai.sap.com/name: "training1"
+    artifacts.ai.sap.com/rootcauseanalysisdata.kind:  "dataset"
+    artifacts.ai.sap.com/rootcauseanalysismodel.kind: "model"
   labels:
-    scenarios.ai.sap.com/id: "batchchar-pipeline"
+    scenarios.ai.sap.com/id: "rc-data-pipeline"
     ai.sap.com/version: '2.0'
 spec:
   imagePullSecrets:
@@ -26,15 +27,15 @@ spec:
     - name: mycodeblock1
       inputs:
         artifacts:
-          - name: batcharpredictdata
-            path: /app/data/final_synthetic_paper_batch_data_with_defects.csv
+          - name: rootcauseanalysisdata
+            path: /app/data/rootcause_data.csv
       outputs:
         artifacts:
-          - name: batcharpredictmodel
-            globalName: batch_char_predict_model
-            path: /app/model/model.tar.gz
+          - name: rootcauseanalysismodel
+            globalName: rootcause_department_model
+            path: /app/model/model.tar.gz    # This must match exactly
       container:
-        image: docker.io/pareshkolte/batchar_prediction:01
+        image: docker.io/pareshkolte/rootcause_department_prediction:01
         command: ["/bin/sh", "-c"]
         args:
           - "python /app/src/main.py"
