@@ -26,7 +26,7 @@ spec:
     - name: mycodeblock1
       inputs:
         artifacts:
-          - name: batchchardata
+          - name: batcharpredictdata
             path: /app/data/
       outputs:
         artifacts:
