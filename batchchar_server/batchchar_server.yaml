@@ -1,1 +1,31 @@
-
+apiVersion: argoproj.io/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: batch-char-inference
+  annotations:
+    scenarios.ai.sap.com/description: "Batch characteristic prediction - inference"
+    scenarios.ai.sap.com/name: "Batch Prediction Inference"
+    executables.ai.sap.com/name: "batch-char-infer"
+    executables.ai.sap.com/description: "Batch inference for viscosity, thickness, opacity, and defect"
+    artifacts.ai.sap.com/batchpredictmodel.kind: "model"
+  labels:
+    scenarios.ai.sap.com/id: "batch-char-inference"
+    ai.sap.com/version: "2.0"
+spec:
+  imagePullSecrets:
+    - name: credstutorialrepo
+  entrypoint: inference
+  arguments:
+    parameters: []
+  templates:
+    - name: inference
+      inputs:
+        artifacts:
+          - name: batchpredictmodel
+            path: /app/model/
+      container:
+        image: docker.io/pareshkolte/batch-char-prediction-infer:01
+        command: ["python3", "/app/src/main.py"]
+        ports:
+          - name: http
+            containerPort: 9001
