@@ -1,31 +1,50 @@
 apiVersion: ai.sap.com/v1alpha1
 kind: ServingTemplate
 metadata:
-  name: batch-char-inference
+  name: batchchar-server
   annotations:
-    scenarios.ai.sap.com/description: "Batch characteristic prediction - inference"
-    scenarios.ai.sap.com/name: "Batch Prediction Inference"
-    executables.ai.sap.com/name: "batch-char-infer"
-    executables.ai.sap.com/description: "Batch inference for viscosity, thickness, opacity, and defect"
+    scenarios.ai.sap.com/description: "Predict batch final characteristics and defect status"
+    scenarios.ai.sap.com/name: "Batch Characteristic Prediction"
+    executables.ai.sap.com/description: "Inference API for final viscosity, thickness, opacity, and defect prediction"
+    executables.ai.sap.com/name: "batchchar-server"
     artifacts.ai.sap.com/batchpredictmodel.kind: "model"
   labels:
-    scenarios.ai.sap.com/id: "batch-char-inference"
-    ai.sap.com/version: "2.0"
+    scenarios.ai.sap.com/id: "batchchar-prediction"
+    ai.sap.com/version: "1.0"
 spec:
-  imagePullSecrets:
-    - name: credstutorialrepo
-  entrypoint: inference
-  arguments:
-    parameters: []
-  templates:
-    - name: inference
-      inputs:
-        artifacts:
-          - name: batchpredictmodel
-            path: /app/model/
-      container:
-        image: docker.io/pareshkolte/batch-char-prediction-infer:01
-        command: ["python3", "/app/src/main.py"]
-        ports:
-          - name: http
-            containerPort: 9001
+  inputs:
+    artifacts:
+      - name: batchpredictmodel
+    parameters:
+      - name: greetmessage
+        type: string
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+        autoscaling.knative.dev/targetBurstCapacity: 0
+      labels: |
+        ai.sap.com/resourcePlan: starter
+    spec: |
+      predictor:
+        imagePullSecrets:
+          - name: credstutorialrepo
+        minReplicas: 1
+        maxReplicas: 5
+        containers:
+          - name: kserve-container
+            image: "docker.io/pareshkolte/batch-char-prediction-infer:01"
+            ports:
+              - containerPort: 9001
+                protocol: TCP
+            command: ["/bin/sh", "-c"]
+            args:
+              - >
+                set -e && echo "Starting" && gunicorn --chdir /app main:app -b 0.0.0.0:9001
+            env:
+              - name: STORAGE_URI
+                value: "{{inputs.artifacts.batchpredictmodel}}"
+              - name: greetingmessage
+                value: "{{inputs.parameters.greetmessage}}"
