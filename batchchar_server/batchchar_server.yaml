@@ -3,8 +3,8 @@ kind: ServingTemplate
 metadata:
   name: batchchar-server
   annotations:
-    scenarios.ai.sap.com/description: "Predict batch final characteristics and defect status"
-    scenarios.ai.sap.com/name: "Batch Characteristic Prediction"
+    scenarios.ai.sap.com/description: "Server Predict batch final characteristics and defect status"
+    scenarios.ai.sap.com/name: "Server Batch Characteristic Prediction"
     executables.ai.sap.com/description: "Inference API for final viscosity, thickness, opacity, and defect prediction"
     executables.ai.sap.com/name: "batchchar-server"
     artifacts.ai.sap.com/batchpredictmodel.kind: "model"
