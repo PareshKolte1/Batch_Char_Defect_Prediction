@@ -6,9 +6,9 @@ metadata:
     scenarios.ai.sap.com/description: "Predict final batch characteristics and defect likelihood"
     scenarios.ai.sap.com/name: "Batch characteristic prediction"
     executables.ai.sap.com/description: "Training pipeline for batch characteristic prediction"
-    executables.ai.sap.com/name: "batchchar-training"
-    artifacts.ai.sap.com/batchchardata.kind: "dataset"
-    artifacts.ai.sap.com/batchcharmodel.kind: "model"
+    executables.ai.sap.com/name: "training-batchchar"
+    artifacts.ai.sap.com/batchcharpredictdata.kind:  "dataset"
+    artifacts.ai.sap.com/batchcharpredictmodel.kind: "model"
   labels:
     scenarios.ai.sap.com/id: "batch-char-data-pipeline"
     ai.sap.com/version: '2.0'
@@ -19,29 +19,26 @@ spec:
   arguments:
     parameters: []
   templates:
-    - name: mypipeline
-      steps:
-        - - name: mytrainer
-            template: mycodeblock1
-    - name: mycodeblock1
-      inputs:
-        artifacts:
-          - name: batcharpredictdata
-            path: /app/data/
-      outputs:
-        artifacts:
-          - name: batchcharmodel
-            globalName: batch_char_model
-            path: /app/output/model/model.tar.gz
-            archive:
-              none: {}
-      container:
-        image: docker.io/pareshkolte/batch-char-prediction:01
-        command: ["/bin/sh", "-c"]
-        args:
-          - "python /app/src/main.py"
-        args: []
-        resources:
-          limits:
-            cpu: "2"
-            memory: "4Gi"
+  - name: mypipeline
+    steps:
+    - - name: mytrainer
+        template: mycodeblock1
+  - name: mycodeblock1
+    inputs:
+      artifacts:
+        - name: batchcharpredictdata
+          path: /app/data/
+    outputs:
+      artifacts:
+        - name: batchcharpredictmodel
+          globalName: batch_char_model
+          path: /app/output/model/model.tar.gz
+          archive:
+            none: 
+              {}
+    container:
+      image: docker.io/pareshkolte/batch-char-prediction:01
+      command: ["/bin/sh", "-c"]
+      args:
+        - python /app/src/main.py
+      env: []
