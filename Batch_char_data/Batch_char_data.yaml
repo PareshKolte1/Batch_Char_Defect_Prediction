@@ -30,15 +30,16 @@ spec:
           path: /app/data/
     outputs:
       artifacts:
-        - name: batchcharpredictmodel
+        - name: batchpredictmodel
           globalName: batch_char_model
-          path: /app/output/model/model.tar.gz
+          path: /app/model/model.tar.gz
           archive:
             none: 
               {}
     container:
       image: docker.io/pareshkolte/batch-char-prediction:01
       command: ["/bin/sh", "-c"]
-      args:
-        - python /app/src/main.py
       env: []
+      args:
+        - "python /app/src/main.py"
+    
