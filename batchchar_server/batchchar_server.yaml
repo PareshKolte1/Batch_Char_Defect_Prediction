@@ -35,7 +35,7 @@ spec:
         maxReplicas: 5
         containers:
           - name: kserve-container
-            image: "docker.io/pareshkolte/batch-char-prediction-infer:01"
+            image: "docker.io/pareshkolte/batch-char-prediction-infer:02"
             ports:
               - containerPort: 9001
                 protocol: TCP
